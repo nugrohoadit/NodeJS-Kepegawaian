@@ -1,28 +1,44 @@
 const { Op } = require("sequelize")
 const controller = {}
 const pegawaiModel = require("../model/pegawaiModel")
+const divisiModel = require("../model/divisiModel")
 const model = {}
 model.pegawai = pegawaiModel
+model.divisi = divisiModel;
+
+// Define associations (this should ideally be done in your model definition files)
+model.pegawai.belongsTo(model.divisi, { foreignKey: 'divisi_id', as: 'divisi' });
+model.divisi.hasMany(model.pegawai, { foreignKey: 'divisi_id', as: 'pegawai' });
+
 
 
 controller.getAll = async function (req, res) {
     try {
-        const pegawaiData = await model.pegawai.findAll()
+        const pegawaiData = await model.pegawai.findAll({
+            attributes: ['id', 'nama', 'alamat', 'no_tlpn', 'jenis_kelamin'],
+            include: [{
+                model: model.divisi,
+                as: 'divisi',
+                attributes: ['divisi']
+            }]
+        });
+
         if (pegawaiData.length > 0) {
             res.status(200).json({
-                message: "connection succesfull",
+                message: "connection successful",
                 data: pegawaiData
-            })
+            });
         } else {
             res.status(200).json({
                 message: "Data Empty",
                 data: []
-            })
+            });
         }
     } catch (error) {
-        res.status(404).json({ message: error })
+        res.status(404).json({ message: error.message });
     }
-}
+};
+
 
 controller.getPegawaiById = async function (req, res) {
     try {

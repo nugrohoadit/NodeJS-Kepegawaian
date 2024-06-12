@@ -1,6 +1,7 @@
 const sequelize = require("sequelize")
 const db = require("../config/database/database")
 
+
 var pegawai = db.define(
     "pegawai",
     {
@@ -16,5 +17,7 @@ var pegawai = db.define(
         timestamps: false,
     }
 )
+
+
 
 module.exports = pegawai

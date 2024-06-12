@@ -1,5 +1,7 @@
 const sequelize = require("sequelize");
 const db = require("../config/database/database");
+
+
 var divisi = db.define(
     "divisi",
     {
@@ -11,4 +13,5 @@ var divisi = db.define(
         timestamps: false,
     }
 )
+
 module.exports = divisi
