@@ -49,20 +49,21 @@ controller.getemail = async function (req, res) {
 controller.insertUser = async function (req, res) {
     try {
         await model.user
-                .create({
-                    email: req.body.email,
-                    password: cryptr.encrypt(req.body.password),
+            .create({
+                email: req.body.email,
+                password: cryptr.encrypt(req.body.password),
 
-                })
-                .then((result) => {
-                    res.status(201).json({
-                        message: "user successful created", data: {
-                            email: req.body.email,
-                            password: cryptr.encrypt(req.body.password),
+            })
+            .then((result) => {
+                res.status(201).json({
+                    message: "user successful created",
+                    data: {
+                        email: req.body.email,
+                        password: cryptr.encrypt(req.body.password),
 
-                        },
-                    });
+                    },
                 });
+            });
     } catch (error) {
         res.status(404).json({ message: error });
     }
