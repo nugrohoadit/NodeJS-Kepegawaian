@@ -7,6 +7,7 @@ var divisi = db.define(
     {
         id: { type: sequelize.INTEGER, primaryKey: true },
         divisi: { type: sequelize.STRING },
+        description: { type: sequelize.STRING }
     },
     {
         freezeTableName: true,

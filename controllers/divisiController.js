@@ -43,7 +43,8 @@ controller.getDivisiById = async function (req, res) {
 controller.insertDivisi = async function (req, res) {
     try {
         await model.divisi.create({
-            divisi: req.body.divisi
+            divisi: req.body.divisi,
+            description: req.body.description
         })
             .then((result => {
                 res.status(201).json({
@@ -65,7 +66,8 @@ controller.editDivisi = async function (req, res) {
                 if (result.length > 0) {
                     await model.divisi.update(
                         {
-                            divisi: req.body.divisi
+                            divisi: req.body.divisi,
+                            description: req.body.description
                         },
                         {
                             where: { id: req.body.id }
