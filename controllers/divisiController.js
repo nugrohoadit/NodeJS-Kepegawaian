@@ -61,24 +61,23 @@ controller.insertDivisi = async function (req, res) {
 
 controller.editDivisi = async function (req, res) {
     try {
-        await model.divisi.findAll({ where: req.body.id })
-            .then(async (result) => {
-                if (result.length > 0) {
-                    await model.divisi.update(
-                        {
-                            divisi: req.body.divisi,
-                            description: req.body.description
-                        },
-                        {
-                            where: { id: req.body.id }
-                        }
-                    )
-                } else {
-                    res.status(500).json({ message: "update failed" });
-                }
+        const result = await model.divisi.findOne({
+            where: {id: req.body.id}
+        })
+        if (result) {
+            await model.divisi.update({
+                divisi: req.body.divisi,
+                description: req.body.description
+            },
+            {
+                where: {id: req.body.id}
             })
+            res.status(200).json({message: "Divisi sukses diubah!"});
+        } else {
+            res.status(404).json({message: "Divisi tidak ada!"});
+        }
     } catch (error) {
-        res.status(404).json({ message: error })
+        res.status(500).json({message: error.message});
     }
 }
 
