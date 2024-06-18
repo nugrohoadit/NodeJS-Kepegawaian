@@ -84,18 +84,17 @@ controller.editDivisi = async function (req, res) {
 
 controller.deleteDivisi = async function (req, res) {
     try {
-        await model.divisi
-            .findAll({ where: { id: req.body.id } })
-            .then(async (result) => {
-                if (result.length > 0) {
-                    await model.divisi.destroy({ where: { id: id.req.body } })
-                    res.status(200).json({ message: "delete divisi successful" })
-                } else {
-                    res.status(404).json({ message: "divisi not found" })
-                }
-            })
+        const result = await model.divisi.findOne({
+            where: { id: req.body.id }
+        })
+        if (result) {
+            await model.divisi.destroy({ where: { id: req.body.id } })
+            res.status(200).json({ message: "Divisi successfully deleted" });
+        } else {
+            res.status(404).json({ message: "Divisi not found" });
+        }
     } catch (error) {
-
+        res.status(500).json({ message: error.message });
     }
 }
 module.exports = controller
